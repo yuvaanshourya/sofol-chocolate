@@ -3,8 +3,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function ZelleQRCode() {
-  // Replace with your actual Zelle email or phone number
-  const zelleRecipient = 'your-email@example.com';
+  const zelleRecipient = 'vishaknag@me.com';
   
   return (
     <div className="bg-chocolate-50 rounded-xl p-4 sm:p-6 text-center">
