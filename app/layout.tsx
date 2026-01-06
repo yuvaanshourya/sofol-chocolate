@@ -15,10 +15,33 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sofol - Artisan Hot Chocolate",
-  description: "Craft your perfect cup of warmth and indulgence. Premium hot chocolate customization at our pop-up store.",
-  keywords: ["hot chocolate", "artisan", "coffee shop", "pop-up", "custom drinks"],
+  title: "🍫 Sofol - Artisan Hot Chocolate",
+  description: "Craft your perfect cup of warmth and indulgence with all-organic ingredients. 100% USDA Certified Organic hot chocolate customized just for you.",
+  keywords: ["hot chocolate", "artisan", "organic", "USDA certified", "custom drinks", "pop-up"],
   authors: [{ name: "Sofol" }],
+  
+  // Open Graph meta tags (for WhatsApp, Facebook, LinkedIn)
+  openGraph: {
+    title: "🍫 Sofol - Artisan Hot Chocolate",
+    description: "Craft your perfect cup of warmth and indulgence with all-organic ingredients. 100% USDA Certified Organic.",
+    url: "https://sofoleats.com/hot-chocolate",
+    siteName: "Sofol",
+    locale: "en_US",
+    type: "website",
+  },
+  
+  // Twitter Card meta tags
+  twitter: {
+    card: "summary_large_image",
+    title: "🍫 Sofol - Artisan Hot Chocolate",
+    description: "Craft your perfect cup of warmth and indulgence with all-organic ingredients. 100% USDA Certified Organic.",
+  },
+  
+  // Additional meta tags
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport = {
