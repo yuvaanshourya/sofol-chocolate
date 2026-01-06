@@ -56,39 +56,39 @@ export default function CustomizationPanel() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50">
-      <div className="flex h-screen">
+      <div className="flex flex-col lg:flex-row lg:h-screen">
         {/* Left Panel - Customization (Scrollable) */}
         <div className="flex-1 overflow-y-auto">
-          <div className="max-w-3xl mx-auto px-4 py-8 pb-32">
+          <div className="max-w-3xl mx-auto px-4 py-6 lg:py-8 pb-32">
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-3 mb-6 lg:mb-8">
               <button
                 onClick={() => router.push('/')}
-                className="p-2 hover:bg-chocolate-100 rounded-full transition-colors"
+                className="p-2 hover:bg-chocolate-100 rounded-full transition-colors flex-shrink-0"
               >
-                <ArrowLeft className="w-6 h-6 text-chocolate-700" />
+                <ArrowLeft className="w-5 h-5 lg:w-6 lg:h-6 text-chocolate-700" />
               </button>
-              <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-serif font-bold text-chocolate-900">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-chocolate-900">
                   Build Your Cup
                 </h1>
-                <p className="text-chocolate-600 text-sm mt-1">
+                <p className="text-chocolate-600 text-xs sm:text-sm mt-1">
                   Scroll down to see all options ↓
                 </p>
               </div>
             </div>
 
             {/* Organic Badge */}
-            <div className="mb-8 p-4 bg-green-100 border-2 border-green-600 rounded-xl">
-              <div className="flex items-center gap-4">
+            <div className="mb-6 lg:mb-8 p-3 lg:p-4 bg-green-100 border-2 border-green-600 rounded-xl">
+              <div className="flex items-center gap-3 lg:gap-4">
                 <img 
                   src="https://cdn.shopify.com/s/files/1/0250/3894/6349/files/USDA-Organic-Four-Color-Organic-Seal_480x480.jpg?v=1708356533" 
                   alt="USDA Organic Certified" 
-                  className="w-16 h-16 flex-shrink-0 object-contain"
+                  className="w-12 h-12 lg:w-16 lg:h-16 flex-shrink-0 object-contain"
                 />
-                <div>
-                  <p className="text-green-900 font-bold text-lg">100% ORGANIC INGREDIENTS</p>
-                  <p className="text-green-800 text-sm">All ingredients are USDA Certified Organic</p>
+                <div className="min-w-0">
+                  <p className="text-green-900 font-bold text-sm sm:text-base lg:text-lg">100% ORGANIC INGREDIENTS</p>
+                  <p className="text-green-800 text-xs sm:text-sm">All ingredients are USDA Certified Organic</p>
                 </div>
               </div>
             </div>

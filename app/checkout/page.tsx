@@ -66,14 +66,14 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 py-8">
       <div className="max-w-md mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-3 mb-6 sm:mb-8">
           <button
             onClick={() => router.push('/cart')}
-            className="p-2 hover:bg-chocolate-100 rounded-full transition-colors"
+            className="p-2 hover:bg-chocolate-100 rounded-full transition-colors flex-shrink-0"
           >
-            <ArrowLeft className="w-6 h-6 text-chocolate-700" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-chocolate-700" />
           </button>
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-chocolate-900">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-chocolate-900">
             Checkout
           </h1>
         </div>
