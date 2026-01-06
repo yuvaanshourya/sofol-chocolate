@@ -55,23 +55,14 @@ apt install -y git
 
 ## Step 4: Upload Your Application
 
-**Option A: Using Git (Recommended)**
+**Using Git (Recommended)**
 ```bash
 # Create app directory
 mkdir -p /var/www/sofol-chocolate
 cd /var/www/sofol-chocolate
 
-# Clone your repository (if on GitHub)
-git clone YOUR_GITHUB_REPO_URL .
-
-# Or use rsync/scp to upload files from local machine
-```
-
-**Option B: Using SCP from your local machine**
-```bash
-# Run this on YOUR LOCAL MACHINE (not VPS)
-cd /Users/vishaknagashoka/Documents/code/sofol-chocolate
-scp -r * root@YOUR_VPS_IP:/var/www/sofol-chocolate/
+# Clone your repository
+git clone https://github.com/yuvaanshourya/sofol-chocolate.git .
 ```
 
 ---
@@ -88,7 +79,7 @@ nano .env.local
 
 Add these variables:
 ```env
-# Stripe Keys
+# Stripe Keys (get from stripe.com dashboard)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
 STRIPE_SECRET_KEY=sk_test_your_key_here
 
@@ -237,10 +228,8 @@ pm2 monit             # Monitor resources
 ```bash
 cd /var/www/sofol-chocolate
 
-# Pull latest code (if using git)
+# Pull latest code
 git pull
-
-# Or upload new files via scp
 
 # Reinstall dependencies if package.json changed
 npm install

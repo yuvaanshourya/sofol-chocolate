@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { QRCodeSVG } from 'qrcode.react';
+import { Smartphone, Tablet } from 'lucide-react';
 
 export default function HeroSection() {
   const router = useRouter();
@@ -111,27 +113,89 @@ export default function HeroSection() {
           ))}
         </motion.div>
 
-        {/* CTA Button */}
-        <motion.button
-          onClick={() => router.push('/customize')}
-          className="bg-gradient-to-r from-chocolate-600 to-chocolate-700 text-white px-12 py-5 rounded-full text-xl font-semibold shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105"
+        {/* Ordering Options */}
+        <motion.div
+          className="w-full max-w-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.6 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
-          Build Your Perfect Hot Chocolate
-        </motion.button>
+          <h2 className="text-2xl font-semibold text-chocolate-700 mb-8">Choose How to Order</h2>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* QR Code Option - For Phone */}
+            <motion.div
+              className="bg-white rounded-2xl shadow-xl p-8 border-2 border-chocolate-200 hover:border-chocolate-400 transition-all"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Smartphone className="w-8 h-8 text-chocolate-600" />
+                <h3 className="text-xl font-bold text-chocolate-800">Order on Your Phone</h3>
+              </div>
+              
+              <p className="text-chocolate-600 mb-6">
+                Scan the QR code to customize and order from your mobile device
+              </p>
+              
+              <div className="bg-white p-4 rounded-xl border-2 border-chocolate-300 inline-block mb-4">
+                <QRCodeSVG 
+                  value="https://sofoleats.com/hot-chocolate/customize"
+                  size={200}
+                  level="H"
+                  includeMargin={true}
+                  fgColor="#5D4037"
+                />
+              </div>
+              
+              <p className="text-sm text-chocolate-500 italic">
+                📱 Point your camera at the code above
+              </p>
+            </motion.div>
 
-        <motion.p
-          className="mt-6 text-chocolate-500 text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          ✨ Customized to perfection • Made fresh • Quick pickup
-        </motion.p>
+            {/* iPad Option - Direct Order */}
+            <motion.div
+              className="bg-gradient-to-br from-chocolate-600 to-chocolate-700 rounded-2xl shadow-xl p-8 text-white flex flex-col justify-center"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <Tablet className="w-8 h-8 text-white" />
+                <h3 className="text-xl font-bold">Order on This Device</h3>
+              </div>
+              
+              <p className="text-cream-100 mb-8">
+                Use this iPad to build your perfect hot chocolate right here at our shop
+              </p>
+              
+              <motion.button
+                onClick={() => router.push('/customize')}
+                className="bg-white text-chocolate-700 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Start Building Your Drink →
+              </motion.button>
+              
+              <p className="text-cream-100 text-sm mt-4 italic">
+                🍫 Perfect for in-shop ordering
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.p
+            className="mt-8 text-chocolate-500 text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+          >
+            ✨ Customized to perfection • Made fresh • Quick pickup
+          </motion.p>
+        </motion.div>
       </motion.div>
 
       {/* Steam animation */}
