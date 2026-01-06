@@ -68,13 +68,22 @@ export default function CustomizationPanel() {
               >
                 <ArrowLeft className="w-5 h-5 lg:w-6 lg:h-6 text-chocolate-700" />
               </button>
-              <div className="flex-1 min-w-0">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-chocolate-900">
-                  Build Your Cup
-                </h1>
-                <p className="text-chocolate-600 text-xs sm:text-sm mt-1">
-                  Scroll down to see all options ↓
-                </p>
+              <div className="flex-1 min-w-0 flex items-center gap-2">
+                <button
+                  onClick={() => router.push('/')}
+                  className="text-3xl sm:text-4xl lg:text-5xl hover:scale-110 transition-transform flex-shrink-0"
+                  aria-label="Go to homepage"
+                >
+                  🍫
+                </button>
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-chocolate-900">
+                    Build Your Cup
+                  </h1>
+                  <p className="text-chocolate-600 text-xs sm:text-sm mt-1">
+                    Scroll down to see all options ↓
+                  </p>
+                </div>
               </div>
             </div>
 

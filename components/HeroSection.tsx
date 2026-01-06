@@ -79,6 +79,15 @@ export default function HeroSection() {
               <p className="text-green-700 text-xs sm:text-sm">USDA Certified</p>
             </div>
           </motion.div>
+
+          <motion.p
+            className="text-sm sm:text-base text-chocolate-500 mb-4 max-w-md mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            Craft your perfect cup of warmth and indulgence with all-organic ingredients
+          </motion.p>
         </div>
 
         {/* Ordering Options - Main Content */}
