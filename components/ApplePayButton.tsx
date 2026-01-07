@@ -68,7 +68,6 @@ export default function ApplePayButton({ amount, onSuccess }: ApplePayButtonProp
         onClick={handlePayment}
         className="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:bg-gray-900 transition-colors flex items-center justify-center gap-2"
       >
-        <span className="text-2xl">🍎</span>
         Pay with Apple Pay
       </motion.button>
 

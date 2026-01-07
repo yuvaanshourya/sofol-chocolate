@@ -24,6 +24,8 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('zelle');
   const [copied, setCopied] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [nameError, setNameError] = useState(false);
   
   // Memoize calculations to prevent re-computation on every render
   const { subtotal, tax, total } = useMemo(() => {
@@ -46,6 +48,12 @@ export default function CheckoutPage() {
   };
 
   const handleZellePayment = () => {
+    if (!customerName.trim()) {
+      setNameError(true);
+      return;
+    }
+    // Store order with customer name (will be sent to database in future)
+    localStorage.setItem('lastOrderCustomerName', customerName);
     // Mark as pending and navigate to confirmation
     router.push('/confirmation?payment=zelle');
     clearCart();
@@ -76,6 +84,39 @@ export default function CheckoutPage() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-chocolate-900">
             Checkout
           </h1>
+        </div>
+
+        {/* Customer Name */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg mb-6">
+          <h2 className="text-xl font-semibold text-chocolate-800 mb-4">
+            Your Information
+          </h2>
+          <div>
+            <label htmlFor="customerName" className="block text-sm font-medium text-chocolate-700 mb-2">
+              Name <span className="text-red-600">*</span>
+            </label>
+            <input
+              id="customerName"
+              type="text"
+              value={customerName}
+              onChange={(e) => {
+                setCustomerName(e.target.value);
+                setNameError(false);
+              }}
+              placeholder="Enter your name"
+              className={`w-full px-4 py-3 rounded-xl border-2 transition-colors ${
+                nameError
+                  ? 'border-red-500 focus:border-red-600 focus:ring-red-200'
+                  : 'border-chocolate-200 focus:border-chocolate-500 focus:ring-chocolate-200'
+              } focus:outline-none focus:ring-2`}
+            />
+            {nameError && (
+              <p className="text-red-600 text-sm mt-2">Please enter your name</p>
+            )}
+            <p className="text-xs text-chocolate-500 mt-2">
+              We'll call your name when your order is ready
+            </p>
+          </div>
         </div>
 
         {/* Order Summary */}
