@@ -3,6 +3,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function ZelleQRCode() {
+  const zellePaymentUrl = 'https://enroll.zellepay.com/qr-codes/?data=eyJuYW1lIjoiVklTSEFLIE4gQVNIT0tBIiwidG9rZW4iOiJ2aXNoYWtuYWdAbWUuY29tIiwiYWN0aW9uIjoicGF5bWVudCJ9';
   const zelleRecipient = 'vishaknag@me.com';
   
   return (
@@ -12,7 +13,7 @@ export default function ZelleQRCode() {
       </p>
       <div className="bg-white p-3 sm:p-4 rounded-xl inline-block shadow-md">
         <QRCodeSVG 
-          value={zelleRecipient}
+          value={zellePaymentUrl}
           size={200}
           level="H"
           includeMargin={true}

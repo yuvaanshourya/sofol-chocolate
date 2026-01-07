@@ -105,12 +105,16 @@ export default function CheckoutPage() {
           <div className="flex gap-2 mb-6">
             <button
               onClick={() => setPaymentMethod('zelle')}
-              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                 paymentMethod === 'zelle'
                   ? 'bg-chocolate-700 text-white shadow-lg'
                   : 'bg-chocolate-100 text-chocolate-700 hover:bg-chocolate-200'
               }`}
             >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+                <path d="M2 17L12 22L22 17L12 12L2 17Z" fill="currentColor"/>
+              </svg>
               Zelle
             </button>
             <button

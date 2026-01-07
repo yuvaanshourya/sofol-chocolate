@@ -9,7 +9,7 @@ export default function HeroSection() {
   const router = useRouter();
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 lg:px-8 py-4 lg:py-8 relative overflow-hidden">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 lg:px-8 py-8 sm:py-4 lg:py-8 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div

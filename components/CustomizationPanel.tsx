@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Minus, Plus, ArrowLeft, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Minus, Plus, ArrowLeft } from 'lucide-react';
 import { productConfig, calculateItemPrice } from '@/config/products';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
@@ -178,20 +178,11 @@ export default function CustomizationPanel() {
             ))}
           </div>
         </Section>
-
-            {/* Visual indicator to scroll */}
-            <motion.div
-              className="flex justify-center mb-6"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <ChevronDown className="w-6 h-6 text-chocolate-400" />
-            </motion.div>
           </div>
         </div>
 
-        {/* Right Sidebar - Cart (Fixed) */}
-        <div className="w-96 bg-white border-l border-chocolate-200 shadow-2xl overflow-y-auto">
+        {/* Right Sidebar - Cart (Fixed on desktop, centered on mobile) */}
+        <div className="w-full lg:w-96 bg-white lg:border-l border-chocolate-200 shadow-2xl overflow-y-auto">
           <div className="sticky top-0 bg-white z-10 border-b border-chocolate-100 p-6">
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-2xl font-serif font-bold text-chocolate-900">Your Order</h2>
