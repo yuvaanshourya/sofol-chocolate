@@ -37,7 +37,41 @@ export default function CheckoutPage() {
   }, [items]);
 
 
-  const handlePaymentSuccess = () => {
+  const createOrder = async (paymentMethod: 'zelle' | 'applepay') => {
+    try {
+      const response = await fetch('/api/orders/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName,
+          items: items.map(item => ({
+            size: item.size,
+            milkType: item.milkType,
+            sweetness: item.sweetness,
+            toppings: item.toppings,
+            flavorAddons: item.flavorAddons,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          totalAmount: total,
+          paymentMethod,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem('lastOrderNumber', data.orderNumber);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Failed to create order:', error);
+      return false;
+    }
+  };
+
+  const handlePaymentSuccess = async () => {
+    await createOrder('applepay');
     clearCart();
   };
 
@@ -47,16 +81,21 @@ export default function CheckoutPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleZellePayment = () => {
+  const handleZellePayment = async () => {
     if (!customerName.trim()) {
       setNameError(true);
       return;
     }
-    // Store order with customer name (will be sent to database in future)
-    localStorage.setItem('lastOrderCustomerName', customerName);
-    // Mark as pending and navigate to confirmation
-    router.push('/confirmation?payment=zelle');
-    clearCart();
+    
+    // Create order in database
+    const orderCreated = await createOrder('zelle');
+    
+    if (orderCreated) {
+      router.push('/confirmation?payment=zelle');
+      clearCart();
+    } else {
+      alert('Failed to create order. Please try again.');
+    }
   };
 
   useEffect(() => {
