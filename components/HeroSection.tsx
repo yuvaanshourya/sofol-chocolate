@@ -97,7 +97,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
-          <h2 className="text-xl sm:text-2xl font-semibold text-chocolate-700 mb-4 lg:mb-6 text-center">Choose How to Order</h2>
+          <h2 className="hidden sm:block text-xl sm:text-2xl font-semibold text-chocolate-700 mb-4 lg:mb-6 text-center">Choose How to Order</h2>
           
           <div className="grid sm:grid-cols-2 gap-4 lg:gap-6">
             {/* QR Code Option - For Phone - Hidden on mobile */}
@@ -136,7 +136,7 @@ export default function HeroSection() {
 
             {/* Direct Order - Device agnostic */}
             <motion.div
-              className="bg-gradient-to-br from-chocolate-600 to-chocolate-700 rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-white flex flex-col justify-center sm:col-span-1 col-span-2"
+              className="bg-gradient-to-br from-chocolate-600 to-chocolate-700 rounded-2xl shadow-xl p-6 sm:p-6 lg:p-8 text-white flex flex-col justify-center col-span-1"
               whileHover={{ scale: 1.02 }}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
