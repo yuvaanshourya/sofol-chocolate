@@ -65,11 +65,6 @@ export default function CheckoutPage() {
     }
   };
 
-  const handlePaymentSuccess = async () => {
-    await createOrder('applepay');
-    clearCart();
-  };
-
   const handleCopyAmount = () => {
     navigator.clipboard.writeText(total.toFixed(2));
     setCopied(true);
