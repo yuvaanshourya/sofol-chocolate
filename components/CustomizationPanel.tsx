@@ -15,7 +15,7 @@ export default function CustomizationPanel() {
   const totalItems = useCartStore((state) => state.getTotalItems());
   const cartTotal = useCartStore((state) => state.getTotalPrice());
 
-  const [size, setSize] = useState(productConfig.sizes[0].id);
+  const [size, setSize] = useState(productConfig.sizes[1].id); // Default to Small (8oz)
   const [milkType, setMilkType] = useState(productConfig.milkTypes[0].id);
   const [sweetness, setSweetness] = useState(productConfig.sweetnessLevels[1].id);
   const [selectedToppings, setSelectedToppings] = useState<string[]>([]);

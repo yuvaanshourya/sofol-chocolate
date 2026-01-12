@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { QRCodeSVG } from 'qrcode.react';
-import { Smartphone, Tablet } from 'lucide-react';
+import { Smartphone, Coffee } from 'lucide-react';
 
 export default function HeroSection() {
   const router = useRouter();
@@ -81,7 +81,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.p
-            className="text-sm sm:text-base text-chocolate-500 mb-4 max-w-md mx-auto"
+            className="text-sm sm:text-base text-chocolate-500 mb-4 max-w-md lg:max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -100,9 +100,9 @@ export default function HeroSection() {
           <h2 className="text-xl sm:text-2xl font-semibold text-chocolate-700 mb-4 lg:mb-6 text-center">Choose How to Order</h2>
           
           <div className="grid sm:grid-cols-2 gap-4 lg:gap-6">
-            {/* QR Code Option - For Phone */}
+            {/* QR Code Option - For Phone - Hidden on mobile */}
             <motion.div
-              className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 border-2 border-chocolate-200 hover:border-chocolate-400 transition-all"
+              className="hidden sm:block bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 border-2 border-chocolate-200 hover:border-chocolate-400 transition-all"
               whileHover={{ scale: 1.02 }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -134,21 +134,21 @@ export default function HeroSection() {
               </p>
             </motion.div>
 
-            {/* iPad Option - Direct Order */}
+            {/* Direct Order - Device agnostic */}
             <motion.div
-              className="bg-gradient-to-br from-chocolate-600 to-chocolate-700 rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-white flex flex-col justify-center"
+              className="bg-gradient-to-br from-chocolate-600 to-chocolate-700 rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 text-white flex flex-col justify-center sm:col-span-1 col-span-2"
               whileHover={{ scale: 1.02 }}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.9, duration: 0.6 }}
             >
               <div className="flex items-center gap-2 mb-3">
-                <Tablet className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <Coffee className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 <h3 className="text-lg sm:text-xl font-bold">Order on This Device</h3>
               </div>
               
               <p className="text-cream-100 mb-6 text-sm sm:text-base">
-                Use this iPad to build your perfect hot chocolate right here at our shop
+                Build your perfect hot chocolate right here at our shop
               </p>
               
               <motion.button

@@ -5,12 +5,9 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, Copy } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import CartSummary from '@/components/CartSummary';
-import ApplePayButton from '@/components/ApplePayButton';
 import ZelleQRCode from '@/components/ZelleQRCode';
 import { calculateTax, formatPrice } from '@/lib/utils';
 import { motion } from 'framer-motion';
-
-type PaymentMethod = 'zelle' | 'applepay';
 
 export default function CheckoutPage() {
   // Debug: Log every render
@@ -20,8 +17,6 @@ export default function CheckoutPage() {
   // Only subscribe to specific parts of the store to prevent re-renders
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
-  
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('zelle');
   const [copied, setCopied] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [customerName, setCustomerName] = useState('');
@@ -37,7 +32,7 @@ export default function CheckoutPage() {
   }, [items]);
 
 
-  const createOrder = async (paymentMethod: 'zelle' | 'applepay') => {
+  const createOrder = async () => {
     try {
       const response = await fetch('/hot-chocolate/api/orders/create', {
         method: 'POST',
@@ -54,7 +49,7 @@ export default function CheckoutPage() {
             price: item.price,
           })),
           totalAmount: total,
-          paymentMethod,
+          paymentMethod: 'zelle',
         }),
       });
 
@@ -88,7 +83,7 @@ export default function CheckoutPage() {
     }
     
     // Create order in database
-    const orderCreated = await createOrder('zelle');
+    const orderCreated = await createOrder();
     
     if (orderCreated) {
       router.push('/confirmation?payment=zelle');
@@ -175,42 +170,18 @@ export default function CheckoutPage() {
           <CartSummary subtotal={subtotal} tax={tax} total={total} />
         </div>
 
-        {/* Payment Method Tabs */}
+        {/* Payment Method - Zelle Only */}
         <div className="bg-white rounded-2xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold text-chocolate-800 mb-4">
-            Payment Method
+          <h2 className="text-xl font-semibold text-chocolate-800 mb-4 flex items-center gap-2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#5D4037"/>
+              <path d="M2 17L12 22L22 17L12 12L2 17Z" fill="#5D4037"/>
+            </svg>
+            Pay with Zelle
           </h2>
-          
-          {/* Tabs */}
-          <div className="flex gap-2 mb-6">
-            <button
-              onClick={() => setPaymentMethod('zelle')}
-              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-                paymentMethod === 'zelle'
-                  ? 'bg-chocolate-700 text-white shadow-lg'
-                  : 'bg-chocolate-100 text-chocolate-700 hover:bg-chocolate-200'
-              }`}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
-                <path d="M2 17L12 22L22 17L12 12L2 17Z" fill="currentColor"/>
-              </svg>
-              Zelle
-            </button>
-            <button
-              onClick={() => setPaymentMethod('applepay')}
-              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                paymentMethod === 'applepay'
-                  ? 'bg-chocolate-700 text-white shadow-lg'
-                  : 'bg-chocolate-100 text-chocolate-700 hover:bg-chocolate-200'
-              }`}
-            >
-              Apple Pay
-            </button>
-          </div>
 
           {/* Payment Content */}
-          <div className={paymentMethod === 'zelle' ? 'block space-y-4' : 'hidden'}>
+          <div className="space-y-4">
               {/* QR Code */}
               <ZelleQRCode />
 
@@ -260,10 +231,6 @@ export default function CheckoutPage() {
               >
                 I've Sent Payment via Zelle
               </motion.button>
-          </div>
-          
-          <div className={paymentMethod === 'applepay' ? 'block' : 'hidden'}>
-            <ApplePayButton amount={total} onSuccess={handlePaymentSuccess} />
           </div>
         </div>
 
