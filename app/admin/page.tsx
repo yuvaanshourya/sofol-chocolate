@@ -48,7 +48,7 @@ export default function AdminPage() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/orders/active');
+      const response = await fetch('/hot-chocolate/api/orders/active');
       const data = await response.json();
       
       if (data.success) {
@@ -64,7 +64,7 @@ export default function AdminPage() {
 
   const handleStatusChange = async (orderId: string, newStatus: 'waiting' | 'ready' | 'pickedup') => {
     try {
-      const response = await fetch(`/api/orders/${orderId}/status`, {
+      const response = await fetch(`/hot-chocolate/api/orders/${orderId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),

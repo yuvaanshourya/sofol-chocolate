@@ -39,7 +39,7 @@ export default function CheckoutPage() {
 
   const createOrder = async (paymentMethod: 'zelle' | 'applepay') => {
     try {
-      const response = await fetch('/api/orders/create', {
+      const response = await fetch('/hot-chocolate/api/orders/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
