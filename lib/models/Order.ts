@@ -35,7 +35,7 @@ const OrderItemSchema = new Schema<IOrderItem>({
 
 const OrderSchema = new Schema<IOrder>(
   {
-    orderNumber: { type: String, required: true, unique: true },
+    orderNumber: { type: String, unique: true },
     customerName: { type: String, required: true },
     items: [OrderItemSchema],
     totalAmount: { type: Number, required: true },
@@ -49,8 +49,8 @@ const OrderSchema = new Schema<IOrder>(
   }
 );
 
-// Generate order number before saving
-OrderSchema.pre('save', async function () {
+// Generate order number before validation
+OrderSchema.pre('validate', async function () {
   if (!this.orderNumber) {
     const count = await mongoose.model('Order').countDocuments();
     this.orderNumber = `HC-${String(count + 1).padStart(3, '0')}`;
