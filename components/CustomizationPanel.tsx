@@ -15,7 +15,7 @@ export default function CustomizationPanel() {
   const totalItems = useCartStore((state) => state.getTotalItems());
   const cartTotal = useCartStore((state) => state.getTotalPrice());
 
-  const [size, setSize] = useState(productConfig.sizes[1].id); // Default to Small (8oz)
+  const [size, setSize] = useState(productConfig.sizes.find(s => s.id === '8oz')?.id ?? productConfig.sizes[0].id);
   const [milkType, setMilkType] = useState(productConfig.milkTypes[0].id);
   const [sweetness, setSweetness] = useState(productConfig.sweetnessLevels[1].id);
   const [selectedToppings, setSelectedToppings] = useState<string[]>([]);
@@ -106,13 +106,26 @@ export default function CustomizationPanel() {
         <Section title="Cup Size">
           <div className="grid grid-cols-3 gap-3">
             {productConfig.sizes.filter(s => s.available).map((s) => (
-              <OptionButton
+              <motion.button
                 key={s.id}
-                selected={size === s.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSize(s.id)}
-                label={s.name}
-                price={s.price}
-              />
+                className={`p-4 rounded-xl border-2 transition-all ${
+                  size === s.id
+                    ? 'border-chocolate-600 bg-chocolate-100 shadow-md'
+                    : 'border-chocolate-200 bg-white hover:border-chocolate-400'
+                }`}
+              >
+                <div className="text-center">
+                  <p className={`font-semibold ${size === s.id ? 'text-chocolate-900' : 'text-chocolate-700'}`}>
+                    {s.name}
+                  </p>
+                  <p className="text-sm text-chocolate-500 mt-1">
+                    {formatPrice(productConfig.basePrice + s.price)}
+                  </p>
+                </div>
+              </motion.button>
             ))}
           </div>
         </Section>
@@ -322,8 +335,8 @@ function OptionButton({ selected, onClick, label, price }: { selected: boolean; 
         <p className={`font-semibold ${selected ? 'text-chocolate-900' : 'text-chocolate-700'}`}>
           {label}
         </p>
-        {price > 0 && (
-          <p className="text-sm text-chocolate-500 mt-1">+{formatPrice(price)}</p>
+        {price !== 0 && (
+          <p className="text-sm text-chocolate-500 mt-1">{price > 0 ? '+' : ''}{formatPrice(price)}</p>
         )}
       </div>
     </motion.button>

@@ -59,17 +59,14 @@ export const productConfig: ProductConfig = {
   basePrice: 3.50, // Base hot chocolate price
   
   sizes: [
-    { id: 'kid', name: 'Kid (5oz)', price: -0.50, available: true },
-    { id: 'small', name: 'Small (8oz)', price: 0, available: true },
-    { id: 'medium', name: 'Medium (12oz)', price: 0.50, available: true },
-    { id: 'large', name: 'Large (16oz)', price: 1.00, available: true },
+    { id: '6oz', name: '6oz', price: -0.50, available: true },
+    { id: '8oz', name: '8oz', price: 0, available: true },
+    { id: '10oz', name: '10oz', price: 0.50, available: true },
   ],
   
   milkTypes: [
     { id: 'whole', name: 'Whole Milk', price: 0, available: true },
     { id: 'oat', name: 'Oat Milk', price: 0, available: true },
-    { id: 'almond', name: 'Almond Milk', price: 0, available: true },
-    { id: 'soy', name: 'Soy Milk', price: 0, available: true },
   ],
   
   sweetnessLevels: [
@@ -88,7 +85,6 @@ export const productConfig: ProductConfig = {
   
   flavorAddons: [
     { id: 'peppermint', name: 'Peppermint', price: 0.25, available: true, icon: '🌿' },
-    { id: 'caramel', name: 'Caramel', price: 0.25, available: true, icon: '🍮' },
     { id: 'vanilla', name: 'Vanilla', price: 0.25, available: true, icon: '🤍' },
     { id: 'sea-salt', name: 'Sea Salt', price: 0.25, available: true, icon: '🧂' },
   ],

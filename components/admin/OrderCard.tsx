@@ -52,9 +52,9 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
       </div>
 
       {/* Customer Name */}
-      <div className="flex items-center gap-2 mb-4 bg-chocolate-50 rounded-lg p-3">
-        <User className="w-6 h-6 text-chocolate-600" />
-        <span className="text-2xl font-bold text-chocolate-900 uppercase">
+      <div className="flex items-center gap-2 mb-4 bg-chocolate-50 rounded-lg p-3 min-w-0">
+        <User className="w-6 h-6 text-chocolate-600 flex-shrink-0" />
+        <span className="text-2xl font-bold text-chocolate-900 uppercase truncate">
           {order.customerName}
         </span>
       </div>

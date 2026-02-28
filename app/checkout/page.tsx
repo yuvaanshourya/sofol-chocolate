@@ -21,6 +21,7 @@ export default function CheckoutPage() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [nameError, setNameError] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
   
   // Memoize calculations to prevent re-computation on every render
   const { subtotal, tax, total } = useMemo(() => {
@@ -81,19 +82,37 @@ export default function CheckoutPage() {
     const orderCreated = await createOrder();
     
     if (orderCreated) {
-      router.push('/confirmation?payment=zelle');
       clearCart();
+      setOrderPlaced(true);
+      setTimeout(() => {
+        router.push('/');
+      }, 3000);
     } else {
       alert('Failed to create order. Please try again.');
     }
   };
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !orderPlaced) {
       router.push('/cart');
     }
-  }, [items.length, router]);
+  }, [items.length, router, orderPlaced]);
 
+  if (orderPlaced) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 flex items-center justify-center px-4">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center"
+        >
+          <CheckCircle2 className="w-20 h-20 text-green-600 mx-auto mb-4" />
+          <h1 className="text-3xl font-serif font-bold text-chocolate-900 mb-2">Order Placed!</h1>
+          <p className="text-chocolate-600">Redirecting to homepage...</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return null;
