@@ -59,7 +59,6 @@ export const productConfig: ProductConfig = {
   basePrice: 2.00, // Base hot chocolate price
 
   sizes: [
-    { id: '6oz', name: '6oz', price: 0, available: true },
     { id: '8oz', name: '8oz', price: 0.50, available: true },
     { id: '10oz', name: '10oz', price: 1.00, available: true },
   ],
