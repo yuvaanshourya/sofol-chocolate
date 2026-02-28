@@ -65,7 +65,7 @@ export const productConfig: ProductConfig = {
   
   milkTypes: [
     { id: 'whole', name: 'Whole Milk', price: 0, available: true },
-    { id: 'oat', name: 'Oat Milk', price: 0, available: true },
+    { id: 'oat', name: 'Oat Milk', price: 0, available: false },
   ],
   
   sweetnessLevels: [
@@ -83,11 +83,7 @@ export const productConfig: ProductConfig = {
     { id: 'chocolate-drizzle', name: 'Chocolate Drizzle', price: 0.25, available: true, icon: '🍫' },
   ],
   
-  flavorAddons: [
-    { id: 'peppermint', name: 'Peppermint', price: 0.25, available: true, icon: '🌿' },
-    { id: 'vanilla', name: 'Vanilla', price: 0.25, available: true, icon: '🤍' },
-    { id: 'sea-salt', name: 'Sea Salt', price: 0.25, available: true, icon: '🧂' },
-  ],
+  flavorAddons: [],
 };
 
 // Helper function to calculate price

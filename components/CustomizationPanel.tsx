@@ -133,14 +133,26 @@ export default function CustomizationPanel() {
         {/* Milk Type */}
         <Section title="Milk Type">
           <div className="grid grid-cols-2 gap-3">
-            {productConfig.milkTypes.filter(m => m.available).map((m) => (
-              <OptionButton
-                key={m.id}
-                selected={milkType === m.id}
-                onClick={() => setMilkType(m.id)}
-                label={m.name}
-                price={m.price}
-              />
+            {productConfig.milkTypes.map((m) => (
+              m.available ? (
+                <OptionButton
+                  key={m.id}
+                  selected={milkType === m.id}
+                  onClick={() => setMilkType(m.id)}
+                  label={m.name}
+                  price={m.price}
+                />
+              ) : (
+                <div
+                  key={m.id}
+                  className="p-4 rounded-xl border-2 border-dashed border-chocolate-200 bg-chocolate-50 opacity-60 cursor-not-allowed"
+                >
+                  <div className="text-center">
+                    <p className="font-semibold text-chocolate-400">{m.name}</p>
+                    <p className="text-xs text-chocolate-400 mt-1">Coming Soon</p>
+                  </div>
+                </div>
+              )
             ))}
           </div>
         </Section>
@@ -177,6 +189,7 @@ export default function CustomizationPanel() {
         </Section>
 
         {/* Flavor Add-ons */}
+        {productConfig.flavorAddons.filter(f => f.available).length > 0 && (
         <Section title="Flavor Add-ons" subtitle="Make it extra special">
           <div className="grid grid-cols-2 gap-3">
             {productConfig.flavorAddons.filter(f => f.available).map((f) => (
@@ -191,6 +204,7 @@ export default function CustomizationPanel() {
             ))}
           </div>
         </Section>
+        )}
           </div>
         </div>
 
