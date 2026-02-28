@@ -81,6 +81,7 @@ export const productConfig: ProductConfig = {
     { id: 'chocolate-shavings', name: 'Chocolate Shavings', price: 0.25, available: true, icon: '🍫' },
     { id: 'cinnamon', name: 'Cinnamon', price: 0, available: true, icon: '✨' },
     { id: 'caramel-drizzle', name: 'Caramel Drizzle', price: 0.25, available: true, icon: '🍯' },
+    { id: 'chocolate-drizzle', name: 'Chocolate Drizzle', price: 0.25, available: true, icon: '🍫' },
   ],
   
   flavorAddons: [
