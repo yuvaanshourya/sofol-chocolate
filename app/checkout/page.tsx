@@ -93,94 +93,79 @@ export default function CheckoutPage() {
     const venmoUrl = 'https://venmo.com/VishakNag-Ashoka';
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 py-8">
-        <div className="max-w-md mx-auto">
+      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 py-4 flex flex-col items-center justify-center">
+        <div className="max-w-sm mx-auto w-full">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-center mb-6"
+            className="text-center mb-4"
           >
-            <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-3" />
-            <h1 className="text-3xl font-serif font-bold text-chocolate-900 mb-1">Order Placed!</h1>
-            <p className="text-chocolate-600">Your order is being prepared</p>
-          </motion.div>
-
-          {/* Amount Due */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl p-6 shadow-lg mb-6 text-center"
-          >
-            <p className="text-sm text-chocolate-600 mb-1">Amount Due</p>
-            <p className="text-4xl font-bold text-chocolate-900">{formatPrice(orderTotal)}</p>
+            <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto mb-2" />
+            <h1 className="text-2xl font-serif font-bold text-chocolate-900 mb-1">Order Placed!</h1>
+            <p className="text-3xl font-bold text-chocolate-900">{formatPrice(orderTotal)}</p>
           </motion.div>
 
           {/* Payment Options */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-2xl p-6 shadow-lg mb-6"
-          >
-            <h2 className="text-lg font-semibold text-chocolate-800 mb-4 text-center">
+          <div className="bg-white rounded-2xl p-5 shadow-lg mb-4">
+
+            <h2 className="text-base font-semibold text-chocolate-800 mb-3 text-center">
               Please pay via Zelle or Venmo
             </h2>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {/* Zelle */}
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div className="flex items-center justify-center gap-1.5 mb-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="24" height="24" rx="4" fill="#6D1ED4"/>
                     <path d="M17.5 6.5H14.5L9.5 15.5H12.5L7 17.5L17.5 6.5Z" fill="white"/>
                   </svg>
-                  <span className="font-bold text-[#6D1ED4]">Zelle</span>
+                  <span className="font-bold text-sm text-[#6D1ED4]">Zelle</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="bg-gray-50 p-2 rounded-xl inline-block">
                   <QRCodeSVG
                     value={zellePaymentUrl}
-                    size={120}
+                    size={100}
                     level="H"
                     includeMargin={true}
                     fgColor="#6D1ED4"
                   />
                 </div>
-                <p className="text-xs text-chocolate-600 mt-2">
+                <p className="text-xs text-chocolate-600 mt-1">
                   vishaknag@me.com
                 </p>
               </div>
 
               {/* Venmo */}
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div className="flex items-center justify-center gap-1.5 mb-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="24" height="24" rx="4" fill="#3D95CE"/>
                     <path d="M16.5 5.5C17 6.5 17.2 7.5 17.2 8.8C17.2 12.2 14.5 16.5 12.3 19.5H7.5L5.8 6.5L10 6L11 14.5C12.2 12.5 13.7 9.5 13.7 7.5C13.7 6.8 13.6 6.3 13.4 5.8L16.5 5.5Z" fill="white"/>
                   </svg>
-                  <span className="font-bold text-[#3D95CE]">Venmo</span>
+                  <span className="font-bold text-sm text-[#3D95CE]">Venmo</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="bg-gray-50 p-2 rounded-xl inline-block">
                   <QRCodeSVG
                     value={venmoUrl}
-                    size={120}
+                    size={100}
                     level="H"
                     includeMargin={true}
                     fgColor="#3D95CE"
                   />
                 </div>
-                <p className="text-xs text-chocolate-600 mt-2">
+                <p className="text-xs text-chocolate-600 mt-1">
                   @VishakNag-Ashoka
                 </p>
               </div>
             </div>
 
-            <p className="text-xs text-chocolate-500 mt-4 text-center">
+            <p className="text-xs text-chocolate-500 mt-3 text-center">
               Send exactly <strong>{formatPrice(orderTotal)}</strong> to complete your payment
             </p>
-          </motion.div>
+          </div>
 
-          <p className="text-center text-sm text-chocolate-400">
+          <p className="text-center text-xs text-chocolate-400">
             Redirecting to homepage shortly...
           </p>
         </div>
