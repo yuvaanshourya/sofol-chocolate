@@ -15,7 +15,7 @@ export interface IOrder extends Document {
   customerName: string;
   items: IOrderItem[];
   totalAmount: number;
-  paymentMethod: 'zelle' | 'applepay';
+  paymentMethod: 'zelle' | 'venmo' | 'cash';
   status: 'waiting' | 'ready' | 'pickedup';
   createdAt: Date;
   updatedAt: Date;
@@ -39,7 +39,7 @@ const OrderSchema = new Schema<IOrder>(
     customerName: { type: String, required: true },
     items: [OrderItemSchema],
     totalAmount: { type: Number, required: true },
-    paymentMethod: { type: String, enum: ['zelle', 'applepay'], required: true },
+    paymentMethod: { type: String, enum: ['zelle', 'venmo', 'cash'], default: 'cash' },
     status: { type: String, enum: ['waiting', 'ready', 'pickedup'], default: 'waiting' },
     readyAt: { type: Date },
     pickedUpAt: { type: Date },

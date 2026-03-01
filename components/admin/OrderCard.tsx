@@ -85,16 +85,13 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 
       {/* Order Info */}
       <div className="flex items-center justify-between text-sm text-chocolate-600 mb-4 pb-4 border-b border-chocolate-200">
-        <span className="font-semibold text-lg text-chocolate-900">
+        <span className="font-bold text-2xl text-chocolate-900">
           {formatPrice(order.totalAmount)}
         </span>
-        <div className="flex items-center gap-3">
-          <span className="capitalize">{order.paymentMethod}</span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            {timeAgo(order.createdAt)}
-          </span>
-        </div>
+        <span className="flex items-center gap-1">
+          <Clock className="w-4 h-4" />
+          {timeAgo(order.createdAt)}
+        </span>
       </div>
 
       {/* Action Buttons */}

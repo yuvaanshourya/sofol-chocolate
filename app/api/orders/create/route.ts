@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { customerName, items, totalAmount, paymentMethod } = body;
 
     // Validate required fields
-    if (!customerName || !items || !totalAmount || !paymentMethod) {
+    if (!customerName || !items || !totalAmount) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       customerName,
       items,
       totalAmount,
-      paymentMethod,
+      paymentMethod: paymentMethod || 'cash',
       status: 'waiting',
     });
 

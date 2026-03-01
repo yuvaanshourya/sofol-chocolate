@@ -1,29 +1,23 @@
 'use client';
 
-import { useState, useEffect, useMemo, memo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, CheckCircle2, Copy } from 'lucide-react';
+import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import CartSummary from '@/components/CartSummary';
 import ZelleQRCode from '@/components/ZelleQRCode';
 import { calculateTax, formatPrice } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function CheckoutPage() {
-  // Debug: Log every render
-  console.log('CheckoutPage rendered at:', new Date().toISOString());
-  
   const router = useRouter();
-  // Only subscribe to specific parts of the store to prevent re-renders
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
-  const [copied, setCopied] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [nameError, setNameError] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  
-  // Memoize calculations to prevent re-computation on every render
+
   const { subtotal, tax, total } = useMemo(() => {
     const taxRate = parseFloat(process.env.NEXT_PUBLIC_TAX_RATE || '0');
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -32,6 +26,8 @@ export default function CheckoutPage() {
     return { subtotal, tax, total };
   }, [items]);
 
+  // Store total in ref so confirmation screen can access it after cart is cleared
+  const [orderTotal, setOrderTotal] = useState(0);
 
   const createOrder = async () => {
     try {
@@ -50,7 +46,7 @@ export default function CheckoutPage() {
             price: item.price,
           })),
           totalAmount: total,
-          paymentMethod: 'zelle',
+          paymentMethod: 'cash',
         }),
       });
 
@@ -66,27 +62,21 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleCopyAmount = () => {
-    navigator.clipboard.writeText(total.toFixed(2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleZellePayment = async () => {
+  const handlePlaceOrder = async () => {
     if (!customerName.trim()) {
       setNameError(true);
       return;
     }
-    
-    // Create order in database
+
+    setOrderTotal(total);
     const orderCreated = await createOrder();
-    
+
     if (orderCreated) {
       clearCart();
       setOrderPlaced(true);
       setTimeout(() => {
         router.push('/');
-      }, 3000);
+      }, 15000);
     } else {
       alert('Failed to create order. Please try again.');
     }
@@ -99,17 +89,101 @@ export default function CheckoutPage() {
   }, [items.length, router, orderPlaced]);
 
   if (orderPlaced) {
+    const zellePaymentUrl = 'https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJWSVNIQUsiLAogICJ0b2tlbiIgOiAidmlzaGFrbmFnQG1lLmNvbSIKfQ==';
+    const venmoUrl = 'https://venmo.com/VishakNag-Ashoka';
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 flex items-center justify-center px-4">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="text-center"
-        >
-          <CheckCircle2 className="w-20 h-20 text-green-600 mx-auto mb-4" />
-          <h1 className="text-3xl font-serif font-bold text-chocolate-900 mb-2">Order Placed!</h1>
-          <p className="text-chocolate-600">Redirecting to homepage...</p>
-        </motion.div>
+      <div className="min-h-screen bg-gradient-to-br from-cream-50 via-cream-100 to-chocolate-50 px-4 py-8">
+        <div className="max-w-md mx-auto">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-center mb-6"
+          >
+            <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-3" />
+            <h1 className="text-3xl font-serif font-bold text-chocolate-900 mb-1">Order Placed!</h1>
+            <p className="text-chocolate-600">Your order is being prepared</p>
+          </motion.div>
+
+          {/* Amount Due */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-2xl p-6 shadow-lg mb-6 text-center"
+          >
+            <p className="text-sm text-chocolate-600 mb-1">Amount Due</p>
+            <p className="text-4xl font-bold text-chocolate-900">{formatPrice(orderTotal)}</p>
+          </motion.div>
+
+          {/* Payment Options */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-2xl p-6 shadow-lg mb-6"
+          >
+            <h2 className="text-lg font-semibold text-chocolate-800 mb-4 text-center">
+              Please pay via Zelle or Venmo
+            </h2>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Zelle */}
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#6D1ED4"/>
+                    <path d="M17.5 6.5H14.5L9.5 15.5H12.5L7 17.5L17.5 6.5Z" fill="white"/>
+                  </svg>
+                  <span className="font-bold text-[#6D1ED4]">Zelle</span>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-xl">
+                  <QRCodeSVG
+                    value={zellePaymentUrl}
+                    size={120}
+                    level="H"
+                    includeMargin={true}
+                    fgColor="#6D1ED4"
+                  />
+                </div>
+                <p className="text-xs text-chocolate-600 mt-2">
+                  vishaknag@me.com
+                </p>
+              </div>
+
+              {/* Venmo */}
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#3D95CE"/>
+                    <path d="M16.5 5.5C17 6.5 17.2 7.5 17.2 8.8C17.2 12.2 14.5 16.5 12.3 19.5H7.5L5.8 6.5L10 6L11 14.5C12.2 12.5 13.7 9.5 13.7 7.5C13.7 6.8 13.6 6.3 13.4 5.8L16.5 5.5Z" fill="white"/>
+                  </svg>
+                  <span className="font-bold text-[#3D95CE]">Venmo</span>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-xl">
+                  <QRCodeSVG
+                    value={venmoUrl}
+                    size={120}
+                    level="H"
+                    includeMargin={true}
+                    fgColor="#3D95CE"
+                  />
+                </div>
+                <p className="text-xs text-chocolate-600 mt-2">
+                  @VishakNag-Ashoka
+                </p>
+              </div>
+            </div>
+
+            <p className="text-xs text-chocolate-500 mt-4 text-center">
+              Send exactly <strong>{formatPrice(orderTotal)}</strong> to complete your payment
+            </p>
+          </motion.div>
+
+          <p className="text-center text-sm text-chocolate-400">
+            Redirecting to homepage shortly...
+          </p>
+        </div>
       </div>
     );
   }
@@ -162,7 +236,7 @@ export default function CheckoutPage() {
               <p className="text-red-600 text-sm mt-2">Please enter your name</p>
             )}
             <p className="text-xs text-chocolate-500 mt-2">
-              We'll call your name when your order is ready
+              We&apos;ll call your name when your order is ready
             </p>
           </div>
         </div>
@@ -173,7 +247,7 @@ export default function CheckoutPage() {
             Order Summary
           </h2>
           <div className="space-y-2 mb-4">
-            {items.map((item, index) => (
+            {items.map((item) => (
               <div key={item.id} className="flex justify-between text-sm text-chocolate-700">
                 <span>
                   {item.quantity}x Hot Chocolate ({item.size})
@@ -184,73 +258,15 @@ export default function CheckoutPage() {
           <CartSummary subtotal={subtotal} tax={tax} total={total} />
         </div>
 
-        {/* Payment Method - Zelle Only */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold text-chocolate-800 mb-4 flex items-center gap-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#5D4037"/>
-              <path d="M2 17L12 22L22 17L12 12L2 17Z" fill="#5D4037"/>
-            </svg>
-            Pay with Zelle
-          </h2>
-
-          {/* Payment Content */}
-          <div className="space-y-4">
-              {/* QR Code */}
-              <ZelleQRCode />
-
-              {/* Amount to Send */}
-              <div className="bg-gold-50 border-2 border-gold-300 rounded-xl p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-chocolate-600 mb-1">Amount to Send</p>
-                    <p className="text-2xl font-bold text-chocolate-900">{formatPrice(total)}</p>
-                  </div>
-                  <button
-                    onClick={handleCopyAmount}
-                    className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg hover:bg-chocolate-50 transition-colors"
-                  >
-                    {copied ? (
-                      <>
-                        <CheckCircle2 className="w-5 h-5 text-green-600" />
-                        <span className="text-sm font-medium text-green-600">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-5 h-5 text-chocolate-700" />
-                        <span className="text-sm font-medium text-chocolate-700">Copy</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Instructions */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <p className="text-sm text-blue-900 font-semibold mb-2">📱 Instructions:</p>
-                <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
-                  <li>Open your Zelle app</li>
-                  <li>Scan the QR code above</li>
-                  <li>Send the exact amount: <strong>{formatPrice(total)}</strong></li>
-                  <li>Click "I've Sent Payment" below</li>
-                </ol>
-              </div>
-
-              {/* Confirm Payment Button */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleZellePayment}
-                className="w-full bg-gradient-to-r from-chocolate-600 to-chocolate-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
-              >
-                I've Sent Payment via Zelle
-              </motion.button>
-          </div>
-        </div>
-
-        <p className="text-center text-sm text-chocolate-500 mt-6">
-          🔒 Your payment information is secure and encrypted
-        </p>
+        {/* Place Order Button */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handlePlaceOrder}
+          className="w-full bg-gradient-to-r from-chocolate-600 to-chocolate-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
+        >
+          Place Order
+        </motion.button>
       </div>
     </div>
   );
